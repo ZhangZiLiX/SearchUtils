@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+   <LinearLayout
+       android:id="@+id/ll_searchandlog"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       >
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:orientation="horizontal"
+           android:weightSum="11"
+           >
+
+      //   android:background="@drawable/bg_circle_search"  找不到资源  所以不能有这个属性
+           <android.support.v7.widget.SearchView
+               android:id="@+id/searchview"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="9"
+               app:iconifiedByDefault="false"
+               app:queryHint="请输入搜索内容"
+               >
+           </android.support.v7.widget.SearchView>
+
+           <RelativeLayout
+               android:layout_width="0dp"
+               android:layout_weight="2"
+               android:layout_height="match_parent">
+
+               <TextView
+                   android:id="@+id/txt_search_go"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:textSize="30sp"
+                   android:textColor="#f00"
+                   android:layout_gravity="center"
+                   android:gravity="center"
+                   android:text="搜索"
+                   />
+
+               <TextView
+                   android:id="@+id/txt_search_back"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:textSize="30sp"
+                   android:textColor="#f00"
+                   android:layout_gravity="center"
+                   android:gravity="center"
+                   android:text="返回"
+                   android:visibility="gone"
+                   />
+
+           </RelativeLayout>
+       </LinearLayout>
+
+       //流式布局
+       //搜索历史内容
+       <ScrollView
+           android:id="@+id/scrollview_searchlog"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="5dp"
+           android:visibility="gone"
+           >
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               //历史记录
+               <!--<TextView
+                   android:id="@+id/txt_searchlog"
+                   android:layout_width="wrap_content"
+                   android:layout_height="50dp"
+                   android:textSize="25sp"
+                   android:textColor="#8c8787"
+                   android:text="搜索历史"
+                   android:background="@drawable/bg_circle_searchlog"
+                   android:layout_margin="10dp"
+                   android:gravity="center"
+                   />-->
+               <android.support.v7.widget.RecyclerView
+                   android:id="@+id/rv_searchlog"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   ></android.support.v7.widget.RecyclerView>
+                 
+           </LinearLayout>
+       </ScrollView>
+
+       <Button
+           android:id="@+id/btn_clear"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:textColor="#000"
+           android:textSize="25sp"
+           android:text="清空历史记录"
+           android:alpha="0.5"
+           android:layout_margin="20dp"
+           />
+
+   </LinearLayout>
+
+    <WebView
+        android:id="@+id/webview_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        ></WebView>
+
+</RelativeLayout>
