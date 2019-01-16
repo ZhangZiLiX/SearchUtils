@@ -1,9 +1,11 @@
-apply plugin: 'com.android.application'
+//apply plugin: 'com.android.application'
+
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.bwie.searchview"
+        //applicationId "com.bwie.searchview"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
