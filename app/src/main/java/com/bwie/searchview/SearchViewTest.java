@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static com.bwie.searchview.R.id.txt_search_go;
+
 /**
  * date:2019/1/16
  * author:张自力(DELL)
@@ -161,7 +163,7 @@ public class SearchViewTest extends LinearLayout implements View.OnClickListener
 
         //找控件
         searchview = (SearchView) view.findViewById(R.id.searchview);//搜索框
-        txtSearchGo = (TextView) view.findViewById(R.id.txt_search_go);//搜索按钮
+        txtSearchGo = (TextView) view.findViewById(txt_search_go);//搜索按钮
         txtSearchBack = (TextView) view.findViewById(R.id.txt_search_back);//返回按钮  默认隐藏
         rvSearchlog = (RecyclerView) view.findViewById(R.id.rv_searchlog);//历史记录 rv
         scrollviewSearchlog = (ScrollView) view.findViewById(R.id.scrollview_searchlog);//包裹rv历史记录 默认隐藏
@@ -209,82 +211,80 @@ public class SearchViewTest extends LinearLayout implements View.OnClickListener
      * */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.txt_search_go://搜索按钮
-                //作用  点击之后
-                //1 切换按钮状态(搜索按钮隐藏  返回按钮展示)
-                if(!serachBtn){
-                    //按钮切换
-                    txtSearchGo.setVisibility(View.GONE);
-                    txtSearchBack.setVisibility(View.VISIBLE);
-                    //将搜索内容存储
-                    //mSearchSp.getString("searchContent", "");
-                    boolean issearchContent = mSearchSp.edit().putString("searchContent", serachContent).commit();
-                    if(issearchContent){
-                       //刷新数据
-                        if(serachContent.equals("")){
-                            Toast.makeText(getContext(), "请输入搜索内容", Toast.LENGTH_SHORT).show();
-                        }else{
-                            //添加数据
-                            //Toast.makeText(getContext(), "存储数据成功!", Toast.LENGTH_SHORT).show();
-                            //加完之后刷新
-                            getRefreshSearchData();
-                            //判断输入的是否是一个网址
-                            //开始判断了
-                            if (mHttpPattern.matcher(serachContent).matches()) {
-                                //这是一个网址链接
-                                Toast.makeText(getContext(),"加载中……",Toast.LENGTH_SHORT).show();
-                                //将隐藏的webview展示  搜索容器隐藏
-                                mWebviewSearch.setVisibility(View.VISIBLE);
-                                mLlsearchAndLog.setVisibility(View.GONE);
-                                mWebviewSearch.loadUrl(serachContent);//加载url
-                            }else{
-                                //这不是一个网址链接
-                                Toast.makeText(getContext(),"这不是一个网址",Toast.LENGTH_SHORT).show();
-                                mWebviewSearch.setVisibility(View.GONE);
-                                mLlsearchAndLog.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }else{
-                        Toast.makeText(getContext(),"存储数据失败！",Toast.LENGTH_SHORT).show();;
-                    }
-                }else{
-                    txtSearchGo.setVisibility(View.VISIBLE);
-                    txtSearchBack.setVisibility(View.GONE);
-                }
-
-                //2 改变按钮标识
-                serachBtn = true;
-
-                // 进行请求接口  进行网络数据请求
-                break;
-
-            case R.id.txt_search_back://搜索按钮切换为返回按钮时的返回按钮
-                //作用  点击之后
-                //1 切换按钮状态(搜索按钮展示  返回按钮隐藏)
-                if(!serachBtn){
-                    txtSearchGo.setVisibility(View.GONE);
-                    txtSearchBack.setVisibility(View.VISIBLE);
-                }else{
-                    txtSearchGo.setVisibility(View.VISIBLE);
-                    txtSearchBack.setVisibility(View.GONE);
-                }
-                //2 改变按钮标识
-                serachBtn = false;
-
-                break;
-
-            case R.id.btn_clear://清空历史记录
-                boolean spclearistrue = mSearchSp.edit().clear().commit();
-                if(spclearistrue){
-                    Toast.makeText(getContext(),"清空数据成功！",Toast.LENGTH_SHORT).show();;
+        int i = v.getId();
+        if (i == txt_search_go) {//作用  点击之后
+            //1 切换按钮状态(搜索按钮隐藏  返回按钮展示)
+            if (!serachBtn) {
+                //按钮切换
+                txtSearchGo.setVisibility(View.GONE);
+                txtSearchBack.setVisibility(View.VISIBLE);
+                //将搜索内容存储
+                //mSearchSp.getString("searchContent", "");
+                boolean issearchContent = mSearchSp.edit().putString("searchContent", serachContent).commit();
+                if (issearchContent) {
                     //刷新数据
-                    initSearchListAndAdapter(getContext());
-                }else{
-                    Toast.makeText(getContext(),"清空数据失败！",Toast.LENGTH_SHORT).show();;
+                    if (serachContent.equals("")) {
+                        Toast.makeText(getContext(), "请输入搜索内容", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //添加数据
+                        //Toast.makeText(getContext(), "存储数据成功!", Toast.LENGTH_SHORT).show();
+                        //加完之后刷新
+                        getRefreshSearchData();
+                        //判断输入的是否是一个网址
+                        //开始判断了
+                        if (mHttpPattern.matcher(serachContent).matches()) {
+                            //这是一个网址链接
+                            Toast.makeText(getContext(), "加载中……", Toast.LENGTH_SHORT).show();
+                            //将隐藏的webview展示  搜索容器隐藏
+                            mWebviewSearch.setVisibility(View.VISIBLE);
+                            mLlsearchAndLog.setVisibility(View.GONE);
+                            mWebviewSearch.loadUrl(serachContent);//加载url
+                        } else {
+                            //这不是一个网址链接
+                            Toast.makeText(getContext(), "这不是一个网址", Toast.LENGTH_SHORT).show();
+                            mWebviewSearch.setVisibility(View.GONE);
+                            mLlsearchAndLog.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } else {
+                    Toast.makeText(getContext(), "存储数据失败！", Toast.LENGTH_SHORT).show();
+                    ;
                 }
+            } else {
+                txtSearchGo.setVisibility(View.VISIBLE);
+                txtSearchBack.setVisibility(View.GONE);
+            }
 
-                break;
+            //2 改变按钮标识
+            serachBtn = true;
+
+            // 进行请求接口  进行网络数据请求
+
+        } else if (i == R.id.txt_search_back) {//作用  点击之后
+            //1 切换按钮状态(搜索按钮展示  返回按钮隐藏)
+            if (!serachBtn) {
+                txtSearchGo.setVisibility(View.GONE);
+                txtSearchBack.setVisibility(View.VISIBLE);
+            } else {
+                txtSearchGo.setVisibility(View.VISIBLE);
+                txtSearchBack.setVisibility(View.GONE);
+            }
+            //2 改变按钮标识
+            serachBtn = false;
+
+
+        } else if (i == R.id.btn_clear) {
+            boolean spclearistrue = mSearchSp.edit().clear().commit();
+            if (spclearistrue) {
+                Toast.makeText(getContext(), "清空数据成功！", Toast.LENGTH_SHORT).show();
+                ;
+                //刷新数据
+                initSearchListAndAdapter(getContext());
+            } else {
+                Toast.makeText(getContext(), "清空数据失败！", Toast.LENGTH_SHORT).show();
+                ;
+            }
+
 
         }
     }
